@@ -11,11 +11,7 @@
 </ul>
 
 <h2>Comments</h2>
-<% @article.comments.each do |comment| %>
-  <div>
-    <span><%= comment.commenter %>: </span><span><%= comment.body %></span>
-  </div>
-<% end %>
+<%= render @article.comments %>
 
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>

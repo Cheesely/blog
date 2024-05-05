@@ -8,10 +8,21 @@
     </div>
   </div>
   <div>
-    <%= form.label :body %>
+    <div>
+      <%= form.label :body %>
+    </div>
+    <div>
+      <%= form.text_area :body %>
+    </div>
   </div>
   <div>
-    <%= form.text_area :body %>
+    <div>
+      <%= form.label :status %>
+    </div>
+    <div>
+      <%= form.select :status, Visible::VALID_STATUSES, selected: 'public' %>
+    </div>
+  </div>
   <div>
     <%= form.submit %>
   </div>
