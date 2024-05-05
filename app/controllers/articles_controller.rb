@@ -1,5 +1,4 @@
 class ArticlesController < ApplicationController
-  http_basic_authenticate_with name: "chelsey", password: "secret", except: [:index, :show]
   def index
     @articles = Article.all
   end
@@ -9,38 +8,58 @@ class ArticlesController < ApplicationController
   end
 
   def new
-    @article = Article.new
+    if current_user.blank?
+      render plain: "You must be logged in to create an article", status: :unauthorized
+    else
+      @article = Article.new
+    end
   end
 
   def create
-    @article = Article.new(article_params)
-
-    if @article.save
-      redirect_to @article
+    if current_user.blank?
+      render plain: "You must be logged in to create an article", status: :unauthorized
     else
-      render :new, status: :unprocessable_entity
+      @article = Article.new(article_params)
+
+      if @article.save
+        redirect_to @article
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 
   def edit
-    @article = Article.find(params[:id])
+    if current_user.blank?
+      render plain: "You must be logged in to edit an article", status: :unauthorized
+    else
+      @article = Article.find(params[:id])
+    end
   end
 
   def update
-    @article = Article.find(params[:id])
-
-    if @article.update(article_params)
-      redirect_to @article
+    if current_user.blank?
+      render plain: "You must be logged in to edit an article", status: :unauthorized
     else
-      render :edit, status: :unprocessable_entity
+      @article = Article.find(params[:id])
+
+      if @article.update(article_params)
+        redirect_to @article
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
   end
 
   def destroy
-    @article = Article.find(params[:id])
-    @article.destroy
+    if current_user.blank?
+      render plain: "You must be logged in to delete an article", status: :unauthorized
+    else
+      @article = Article.find(params[:id])
+      @article.destroy
 
-    redirect_to root_path, status: :see_other
+      redirect_to root_path, status: :see_other
+    end
   end
 
   private

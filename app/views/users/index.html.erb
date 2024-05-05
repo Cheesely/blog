@@ -1,0 +1,8 @@
+<h1>Users#index</h1>
+<%= link_to "Create user", new_user_path %>
+
+<% if @users.present? %>
+  <%= render @users %>
+<% else %>
+  <p>No users found</p>
+<% end %>
