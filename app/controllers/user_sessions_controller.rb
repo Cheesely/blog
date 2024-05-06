@@ -11,7 +11,7 @@ class UserSessionsController < ApplicationController
       redirect_to root_path
     else
       flash[:alert] = "Invalid Login"
-      redirect_to new_session_path, status: :unauthorized
+      redirect_to new_user_session_path, status: :unauthorized
     end
   end
 
