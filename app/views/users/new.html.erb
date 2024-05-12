@@ -1,1 +1,5 @@
 <%= render "form", user: @user %>
+<p class="mt-10 text-center text-sm text-gray-500">
+  Akready have an account?
+  <%= link_to 'Sign In', new_user_session_path, class: "font-semibold leading-6 text-indigo-600 hover:text-indigo-500" %>
+</p>
