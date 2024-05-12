@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  get "my_articles" => "articles#user_index", as: :user_articles
+
   resources :users
 end

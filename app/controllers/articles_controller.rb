@@ -62,6 +62,15 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def user_index
+    if current_user.blank?
+      render plain: "You must be logged in to view your articles", status: :unauthorized
+    else
+      @articles = current_user.articles
+      render 'index'
+    end
+  end
+
   private
 
   def article_params
