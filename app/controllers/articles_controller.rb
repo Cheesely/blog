@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
     if current_user.blank?
       render plain: "You must be logged in to create an article", status: :unauthorized
     else
-      @article = Article.new(article_params)
+      @article = Article.new(article_params.merge(user_id: current_user.id))
 
       if @article.save
         redirect_to @article
