@@ -5,4 +5,5 @@ module ApplicationHelper
     
     link_to text, path, class: class_name, aria: aria_current
   end
+ 
 end
