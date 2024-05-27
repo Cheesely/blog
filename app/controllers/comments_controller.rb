@@ -1,4 +1,7 @@
 class CommentsController < ApplicationController
+  before_action :set_article
+  before_action :set_comment, only: [:edit, :update, :destroy]
+
   def create
     @article = Article.find(params[:article_id])
     @comment = @article.comments.create(comment_params.merge(user_id: current_user.id))
@@ -6,17 +9,33 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    if current_user.blank?
-      render plain: "You must be logged in to delete a comment", status: :unauthorized
+    @comment.destroy
+    redirect_to article_path(@article), status: :see_other
+  end
+
+  def edit
+  end
+
+  def update
+    if @comment.update(comment_params)
+      redirect_to article_path(@article)
     else
-      @article = Article.find(comment_params[:article_id])
-      @comment = @article.comments.find(comment_params[:id])
-      @comment.destroy
-      redirect_to article_path(@article), status: :see_other
+      render :edit, status: :unprocessable_entity
     end
   end
 
   private
+  def set_article
+    @article = Article.find(params[:article_id])
+  end
+
+  def set_comment
+    @comment = @article.comments.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "The comment you are looking for could not be found"
+    redirect_to article_path(@article)
+  end
+
   def comment_params
     params.require(:comment).permit(:commenter, :body, :status)
   end
