@@ -1,9 +1,11 @@
 <div class="min-h-full">
     <%= render "shared/nav" %>
   <main>
-    <div class="mx-auto max-w-3xl h-full bg-gray-50 sm:px-6 lg:px-8 py-12 ">
-      <%= render "form", comment: @comment %>
-    </div>
+    <%= turbo_frame_tag dom_id(@comment) do %>
+      <div class="mx-auto max-w-3xl h-full bg-gray-50 sm:px-6 lg:px-8 py-12 ">
+        <%= render "form", comment: @comment %>
+      </div>
+    <% end %>
 
   </main>
 </div>
