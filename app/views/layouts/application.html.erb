@@ -40,18 +40,5 @@
         <% end %>
       </div>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.close-flash-button').forEach(function(button) {
-          button.addEventListener('click', function() {
-            const flashMessageId = button.getAttribute('data-flash-id');
-            const flashMessage = document.getElementById(flashMessageId);
-            if (flashMessage) {
-              flashMessage.remove();
-            }
-          });
-        });
-      });
-    </script>
   </body>
 </html>
