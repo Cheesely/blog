@@ -2,19 +2,29 @@ class CommentsController < ApplicationController
   before_action :set_article
   before_action :set_comment, only: [:edit, :update, :destroy]
 
+  def new
+    @comment = @article.comments.build
+  end
+
   def create
-    @article = Article.find(params[:article_id])
-    @comment = @article.comments.create(comment_params.merge(user_id: current_user.id))
-    redirect_to article_path(@article)
+    @comment = @article.comments.new(comment_params.merge(user_id: current_user.id))
+    if !@comment.save
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def destroy
     @comment.destroy
-    redirect_to article_path(@article), status: :see_other
+
+    respond_to do |format|
+      format.html { redirect_to article_path(@article), notice: "Comment was successfully deleted" }
+      format.turbo_stream
+    end
   end
 
   def edit
   end
+
 
   def update
     if @comment.update(comment_params)
